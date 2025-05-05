@@ -1,0 +1,143 @@
+.tableContainer {
+  width: 100%;
+  overflow: auto;
+  margin-top: 1rem;
+  height: 80vh;
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+  table-layout: fixed;
+  background-color: #fff;
+}
+
+.headerRow {
+  background-color: hsl(235, 100%, 95%);
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 2px solid #ccc;
+  height: 8vh;
+}
+
+.headerCell {
+  padding: 0.75rem;
+  text-align: left;
+  background-color: hsl(235, 100%, 95%);
+  color: #333;
+  font-weight: 600;
+  border-right: 1px solid #ddd;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.headerCell:last-child {
+  border-right: none;
+}
+
+.row {
+  border-bottom: 1px solid #eee;
+  height: 50px;
+  box-sizing: border-box;
+}
+
+.row:nth-child(even) .cell {
+  background-color: #ffffff; 
+}
+
+.row:nth-child(odd) .cell {
+  background-color: #fafafa; 
+}
+
+.cell {
+  padding: 0.75rem;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background-color: white;
+  border-right: 1px solid #ddd;
+}
+
+.cell:last-child {
+  border-right: none;
+}
+
+@media (max-width: 768px) {
+  .cell {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+}
+
+
+
+.pageContainer {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FF9F00, #FF3D00);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+
+.tableContainer {
+  width: 100%;
+  overflow: auto;
+  margin-top: 1rem;
+  height: 80vh;
+  position: relative;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #fff; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  backdrop-filter: blur(5px); 
+}
+
+
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #f0f0f0, #e0e0e0); 
+}
+
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+  table-layout: fixed;
+  background-color: #fff;
+}
+
+
+.headerRow {
+  background-color: #1a73e8; 
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 2px solid #ccc;
+  height: 8vh;
+  color: white;
+}
+
+
+.row:nth-child(even) {
+  background-color: #f4f4f4; 
+}
+
+.row:nth-child(odd) {
+  background-color: #fafafa; 
+}

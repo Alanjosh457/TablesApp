@@ -1,0 +1,24 @@
+
+/* app.css */
+
+body {
+   /* Set gr4 as the background */
+  background-size: cover; /* Make the background cover the entire page */
+  color: black; /* Default text color */
+  font-family: 'Manrope', sans-serif; /* Set the font for the entire app */
+  margin: 0; /* Remove default margin */
+}
+
+/* src/App.css */
+.app-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+ 
+}
+
