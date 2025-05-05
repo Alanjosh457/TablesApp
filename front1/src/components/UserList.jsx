@@ -20,21 +20,77 @@ const debounce = (fn, delay) => {
   };
 };
 
+
+
+const validateUser = (user) => {
+  const errors = [];
+
+  if (
+    !user.name ||
+    typeof user.name !== 'string' ||
+    /^\d+$/.test(user.name.trim())
+  ) {
+    errors.push('Invalid or missing name');
+  }
+
+  if (
+    !user.email ||
+    typeof user.email !== 'string' ||
+    !user.email.includes('@')
+  ) {
+    errors.push('Invalid or missing email');
+  }
+
+
+
+  if (!user.address?.city || typeof user.address.city !== 'string') {
+    errors.push('Missing or invalid city in address');
+  }
+
+ 
+  if (!user.company?.name || typeof user.company.name !== 'string') {
+    errors.push('Missing or invalid company name');
+  }
+
+  return errors;
+};
+
+
+
 const TableCell = React.memo(({ cell }) => (
   <td className={styles.cell}>
     {flexRender(cell.column.columnDef.cell, cell.getContext())}
   </td>
 ));
 
-const TableRow = React.memo(({ row, index, style }) => (
-  <tr
-    className={`${styles.row} ${index % 2 === 0 ? styles.evenRow : ''}`}
-    style={style}
-  >
-    {row.getVisibleCells().map((cell) => (
-      <TableCell key={cell.id} cell={cell} />
-    ))}
-  </tr>
+const TableRow = React.memo(({ row, index, style, errors = [] }) => (
+  <>
+    <tr
+      className={`${styles.row} ${index % 2 === 0 ? styles.evenRow : ''}`}
+      style={style}
+    >
+      {row.getVisibleCells().map((cell) => (
+        <TableCell key={cell.id} cell={cell} />
+      ))}
+    </tr>
+    {errors.length > 0 && (
+      <tr
+        className={styles.errorRow}
+        style={{
+          ...style,
+          backgroundColor: '#ffe6e6',
+          display: 'table',
+          width: '100%',
+        }}
+      >
+        <td colSpan={row.getVisibleCells().length} className={styles.errorCell}>
+          {errors.map((err, i) => (
+            <div key={i} className={styles.errorText}>⚠️ {err}</div>
+          ))}
+        </td>
+      </tr>
+    )}
+  </>
 ));
 
 const UserList = () => {
@@ -42,19 +98,51 @@ const UserList = () => {
   const parentRef = useRef();
 
   const columns = useMemo(() => [
-    { header: 'Name', accessorKey: 'name' },
-    { header: 'Email', accessorKey: 'email' },
+    {
+      header: 'Name',
+      accessorFn: (row) => row.name ?? 'N/A',
+      id: 'name',
+    },
+    {
+      header: 'Email',
+      accessorFn: (row) => row.email ?? 'N/A',
+      id: 'email',
+    },
     {
       header: 'Phone',
-      accessorFn: (row) => formatPhone(row.phone),
+      accessorFn: (row) => row.phone ? formatPhone(row.phone) : 'N/A',
       id: 'phone',
     },
     {
       header: 'Company (City)',
-      accessorFn: (row) => `${row.company?.name ?? ''} (${row.address?.city ?? ''})`,
+      accessorFn: (row) => {
+        const companyName = row.company?.name ?? 'Unknown Company';
+        const city = row.address?.city ?? 'Unknown City';
+        return `${companyName} (${city})`;
+      },
       id: 'companyCity',
     },
   ], []);
+
+  const validationErrorsMap = useMemo(() => {
+    const errorMap = {};
+    users.forEach((user, index) => {
+      const errors = validateUser(user);
+      if (errors.length > 0) {
+        errorMap[index] = errors;
+      }
+    });
+    return errorMap;
+  }, [users]);
+
+  useEffect(() => {
+    users.forEach((user, index) => {
+      const validationErrors = validateUser(user);
+      if (validationErrors.length > 0) {
+        console.warn(`User at index ${index} has validation issues:`, validationErrors, user);
+      }
+    });
+  }, [users]);
 
   const table = useReactTable({
     data: users,
@@ -128,6 +216,7 @@ const UserList = () => {
                   width: '100%',
                   tableLayout: 'fixed',
                 }}
+                errors={validationErrorsMap[virtualRow.index] || []}
               />
             );
           })}

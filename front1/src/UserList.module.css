@@ -141,3 +141,24 @@ body {
 .row:nth-child(odd) {
   background-color: #fafafa; 
 }
+
+
+
+.inlineError {
+  color: red;
+  font-size: 0.75rem;
+  margin-top: 2px;
+  padding-left: 10px;
+}
+.errorRow {
+  color: red;
+  font-size: 0.85rem;
+}
+
+.errorCell {
+  padding: 0.5rem;
+}
+
+.errorText {
+  margin: 2px 0;
+}
