@@ -7,21 +7,19 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Read users from the JSON file once at startup
+
 const users = JSON.parse(fs.readFileSync(path.join(__dirname, 'users.json'), 'utf-8'));
 const total = users.length;
 
-// Middleware
+
 app.use(cors({ origin: '*' }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Default route
 app.get('/', (req, res) => {
   res.send('Hello from paginated user API!');
 });
 
-// Paginated user API
 app.get('/api/users', (req, res) => {
   let { page = 1, limit = 50 } = req.query;
   page = parseInt(page);
@@ -43,7 +41,6 @@ app.get('/api/users', (req, res) => {
   });
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`✅ Server running at http://localhost:${PORT}`);
 });

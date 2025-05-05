@@ -15,12 +15,12 @@ export const usepage = () => {
     if (loading || !hasMore) return;
     setLoading(true);
   
-    console.log(`Loading page: ${page}`);  // Debugging log to check the current page
+    console.log(`Loading page: ${page}`);  
     
     try {
       const { data, total } = await fetchUsers(page, limit);
       setUsers(prev => [...prev, ...data]);  // Add new users to the list
-      if ((page * limit) >= total) setHasMore(false);  // Disable loading if no more users
+      if ((page * limit) >= total) setHasMore(false);  
       setPage(prev => prev + 1);  // Increment page number for next request
     } catch (err) {
       console.error(err);
